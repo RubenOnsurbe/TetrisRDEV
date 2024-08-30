@@ -191,10 +191,6 @@ body {
         text-align: left;
     }
 
-    footer {
-        padding-top: 10px;
-    }
-
     #puntuacion {
         display: inline-block;
         margin-right: 10px;
@@ -213,7 +209,7 @@ body {
     #touch-controls {
         justify-content: center;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 10px;
         width: 100%;
         /* Asegura que los botones tomen el ancho completo */
     }
