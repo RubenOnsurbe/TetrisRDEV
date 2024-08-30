@@ -120,8 +120,8 @@ button {
 }
 
 #touch-controls button {
-    padding: 15px;
-    font-size: 24px;
+    padding: 10px;
+    font-size: 20px;
     background-color: #333;
     color: white;
     border: none;
