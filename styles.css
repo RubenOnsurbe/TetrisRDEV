@@ -173,7 +173,7 @@ body {
         display: flex;
         flex-direction: row;
         /* Mantén la dirección en fila */
-        gap: 0px;
+        gap: 10px;
     }
 
     #next-piece-container {
