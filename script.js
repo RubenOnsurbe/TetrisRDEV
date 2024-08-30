@@ -2,6 +2,9 @@
 const BLOCK_SIZE = 20;
 const BOARD_WIDTH = 14;
 const BOARD_HEIGHT = 30;
+let dropInterval = 1000;  // Intervalo inicial de caída
+let timerValue = 0;       // Tiempo transcurrido en segundos
+let level = 1;            // Nivel inicial
 
 const EVENT_MOVEMENTS = {
     LEFT: 'ArrowLeft',
@@ -45,11 +48,15 @@ const PIECES = [
 ];
 
 /* juego */
-const canvas = document.querySelector('canvas');
+const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
-const $score = document.querySelector('span');
+const $score = document.querySelector('#puntuacion');
 const $section = document.querySelector('section');
 const $resetButton = document.getElementById('reset-button');
+const nextPieceCanvas = document.getElementById('nextPieceCanvas');
+const nextPieceContext = nextPieceCanvas.getContext('2d');
+const $timer = document.getElementById('timer');
+const $level = document.getElementById('level');
 const audio = new window.Audio('https://video.aprendejs.dev/tetris.mp3');
 
 let score = 0;
@@ -74,8 +81,17 @@ const piece = {
     color: COLORS[Math.floor(Math.random() * COLORS.length)]
 };
 
+let nextPiece = generateRandomPiece();
 let dropCounter = 0;
 let lastTime = 0;
+let timerInterval;
+
+function generateRandomPiece() {
+    return {
+        shape: PIECES[Math.floor(Math.random() * PIECES.length)],
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+    };
+}
 
 function update(time = 0) {
     const deltaTime = time - lastTime;
@@ -83,7 +99,7 @@ function update(time = 0) {
 
     dropCounter += deltaTime;
 
-    if (dropCounter > 1000) {
+    if (dropCounter > dropInterval) {
         piece.position.y++;
         dropCounter = 0;
 
@@ -133,6 +149,17 @@ function draw() {
         });
     });
 
+    // Calcular la posición de la sombra y dibujarla
+    const shadowPosition = getShadowPosition();
+    piece.shape.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value) {
+                context.fillStyle = 'rgba(255, 255, 255, 0.3)'; // Color más claro para la sombra
+                context.fillRect(x + shadowPosition.x, y + shadowPosition.y, 1, 1);
+            }
+        });
+    });
+
     // Dibujar la pieza actual
     piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -143,11 +170,76 @@ function draw() {
         });
     });
 
+    // Dibujar la próxima pieza en el canvas de la próxima ficha
+    drawNextPiece();
+
     // Actualizar la puntuación
     $score.innerText = score;
 }
 
+function drawNextPiece() {
+    nextPieceContext.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+    const blockSize = 20;
 
+    // Calcular el tamaño de la pieza en términos de bloques
+    const pieceWidth = nextPiece.shape[0].length;
+    const pieceHeight = nextPiece.shape.length;
+
+    // Calcular el offset para centrar la pieza
+    const offsetX = Math.floor((nextPieceCanvas.width / blockSize - pieceWidth) / 2);
+    const offsetY = Math.floor((nextPieceCanvas.height / blockSize - pieceHeight) / 2);
+
+    nextPiece.shape.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value) {
+                nextPieceContext.fillStyle = nextPiece.color;
+                nextPieceContext.fillRect(
+                    (x + offsetX) * blockSize,
+                    (y + offsetY) * blockSize,
+                    blockSize,
+                    blockSize
+                );
+            }
+        });
+    });
+}
+
+function getShadowPosition() {
+    const shadowPiece = {
+        ...piece,
+        position: { ...piece.position }
+    };
+
+    while (!checkCollision(shadowPiece)) {
+        shadowPiece.position.y++;
+    }
+
+    shadowPiece.position.y--; // Retrocede una posición después de la colisión
+    return shadowPiece.position;
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timerValue++;
+        $timer.innerText = timerValue;
+
+        if (timerValue % 60 === 0) {  // Cada 90 segundos
+            level++;
+            $level.innerText = level;
+            dropInterval = Math.max(100, dropInterval - 100); // Reduce el intervalo de caída hasta un mínimo de 100 ms
+        }
+    }, 1000);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerValue = 0;
+    $timer.innerText = timerValue;
+    level = 1;
+    $level.innerText = level;
+    dropInterval = 1000;  // Restablece la velocidad de caída inicial
+    startTimer();
+}
 
 document.addEventListener('keydown', event => {
     if (event.key === EVENT_MOVEMENTS.LEFT) {
@@ -207,12 +299,12 @@ function dropPiece() {
     removeRows();
 }
 
-function checkCollision() {
-    return piece.shape.find((row, y) => {
+function checkCollision(pieceToCheck = piece) {
+    return pieceToCheck.shape.find((row, y) => {
         return row.find((value, x) => {
             return (
                 value === 1 &&
-                board[y + piece.position.y]?.[x + piece.position.x] !== 0
+                board[y + pieceToCheck.position.y]?.[x + pieceToCheck.position.x] !== 0
             );
         });
     });
@@ -233,13 +325,16 @@ function solidifyPiece() {
 function resetPiece() {
     piece.position.x = Math.floor(BOARD_WIDTH / 2 - 2);
     piece.position.y = 0;
-    piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)];
-    piece.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    piece.shape = nextPiece.shape;
+    piece.color = nextPiece.color;
+
+    nextPiece = generateRandomPiece();
 
     if (checkCollision()) {
         window.alert('Game over!! Sorry!');
         board.forEach((row) => row.fill(0));
         score = 0;
+        resetTimer();
     }
 }
 
@@ -269,12 +364,11 @@ function resetGame() {
 
 $resetButton.addEventListener('click', () => {
     resetGame();
+    resetTimer();  // Reiniciar el temporizador y la velocidad
+    $resetButton.blur();  // Quitar el foco después de hacer clic
 });
 
-$section.addEventListener('click', () => {
-    update();
-
-    $section.remove();
-    audio.volume = 0.01;
-    audio.play();
-});
+startTimer();  // Inicia el temporizador al cargar la página
+update();
+audio.volume = 0.01;
+audio.play();

@@ -4,23 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris en JavaScript</title>
+    <title>Tetris RDEV</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <header>
-        <h1>Tetris RDEV</h1>
-    </header>
     <div id="app">
-        <section>Haz click aquí para jugar</section>
-        <canvas></canvas>
+        <header>
+            <h1>Tetris RDEV</h1>
+        </header>
+        <div id="game-container">
+            <div id="instructions">
+                <strong>Intrucciones:</strong>
+                <div class="instruction-item">
+                    <img src="bajar_ficha_de_golpe.png" alt="Espacio">
+                    <span>Bajar ficha de golpe.</span>
+                </div>
+                <div class="instruction-item">
+                    <img src="movimiento_ficha.png" alt="Flechas de dirección">
+                    <span>Movimiento de ficha.</span>
+                </div>
+            </div>
+            <div id="main">
+                <canvas id="gameCanvas"></canvas>
+                <div id="next-piece-container">
+                    <strong>Próxima Ficha:</strong>
+                    <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
+                    <div id="level-container">
+                        <strong>Nivel: <span id="level">1</span></strong>
+                    </div>
+                    <div id="timer-container">
+                        <strong>Tiempo: <span id="timer">0</span>s</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <strong>Puntuación: <span id="puntuacion">0</span></strong>
+            <button id="reset-button">Reset</button>
+        </footer>
     </div>
-    <footer>
-        <strong>Puntuación: <span></span></strong>
-        <strong> <button id="reset-button">Reset</button>
-        </strong>
-    </footer>
     <script src="script.js"></script>
 </body>
 

@@ -5,7 +5,7 @@
 
     color-scheme: dark light;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    background-color: black;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -17,26 +17,81 @@
 body {
     margin: 0;
     padding: 0;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 header {
     text-align: center;
-    padding: 20px;
     color: #fff;
 }
 
-section {
-    position: absolute;
-    background: black;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    inset: 0;
-    display: grid;
-    font-size: 48px;
-    place-content: center;
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+#instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instruction-item img {
+    width: 40px;
+    height: 40px;
+}
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+#next-piece-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+#gameCanvas {
+    border: 1px solid white;
+}
+
+#nextPieceCanvas {
+    border: 1px solid white;
+    background-color: black;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
 }
 
 button {
@@ -50,7 +105,9 @@ button {
     border-radius: 5px;
 }
 
-footer {
-    display: flex;
-    justify-content: space-between;
+#timer-container,
+#level-container {
+    margin-top: 10px;
+    color: white;
+    text-align: center;
 }
