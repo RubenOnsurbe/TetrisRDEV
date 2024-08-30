@@ -50,7 +50,7 @@ const PIECES = [
 /* juego */
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
-const $score = document.querySelector('span');
+const $score = document.querySelector('#puntuacion');
 const $section = document.querySelector('section');
 const $resetButton = document.getElementById('reset-button');
 const nextPieceCanvas = document.getElementById('nextPieceCanvas');

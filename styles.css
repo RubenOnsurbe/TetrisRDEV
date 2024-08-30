@@ -5,7 +5,7 @@
 
     color-scheme: dark light;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    background-color: #000005;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -133,25 +133,50 @@ button {
     background-color: #555;
 }
 
+/* Ocultar los controles táctiles en pantallas más grandes que 768px */
+@media (min-width: 769px) {
+    #touch-controls {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     #game-container {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        /* Mantén los elementos en una fila */
+        align-items: flex-start;
     }
 
     #main {
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        flex-direction: row;
+        /* Mantén la dirección en fila */
+        gap: 20px;
     }
 
-    #instructions {
-        order: 2;
+    #next-piece-container {
+        align-items: flex-start;
+        /* Alinea los elementos a la izquierda */
     }
 
     footer {
         flex-direction: column;
+        /* Cambia a columna para el footer */
         gap: 10px;
         align-items: center;
         max-width: 100%;
+    }
+
+    #instructions {
+        display: none;
+        /* Ocultar instrucciones en pantallas pequeñas */
+    }
+
+    #touch-controls {
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        width: 100%;
+        /* Asegura que los botones tomen el ancho completo */
     }
 }

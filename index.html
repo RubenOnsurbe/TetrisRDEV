@@ -26,6 +26,7 @@
             </div>
             <div id="main">
                 <canvas id="gameCanvas"></canvas>
+
                 <div id="next-piece-container">
                     <strong>Próxima Ficha:</strong>
                     <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
@@ -39,16 +40,16 @@
             </div>
         </div>
         <footer>
-            <strong>Puntuación: <span>0</span></strong>
+            <strong>Puntuación: <span id="puntuacion">0</span></strong>
             <button id="reset-button">Reset</button>
         </footer>
-        <div id="touch-controls">
-            <button id="left-btn">⬅️</button>
-            <button id="rotate-btn">🔄</button>
-            <button id="right-btn">➡️</button>
-            <button id="down-btn">⬇️</button>
-            <button id="drop-btn">⏬</button>
-        </div>
+    </div>
+    <div id="touch-controls">
+        <button id="left-btn">⬅️</button>
+        <button id="rotate-btn">🔄</button>
+        <button id="right-btn">➡️</button>
+        <button id="down-btn">⬇️</button>
+        <button id="drop-btn">⏬</button>
     </div>
     <script src="script.js"></script>
 </body>
