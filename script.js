@@ -50,7 +50,7 @@ const PIECES = [
 /* juego */
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
-const $score = document.querySelector('#puntuacion');
+const $score = document.querySelector('span');
 const $section = document.querySelector('section');
 const $resetButton = document.getElementById('reset-button');
 const nextPieceCanvas = document.getElementById('nextPieceCanvas');
@@ -223,7 +223,7 @@ function startTimer() {
         timerValue++;
         $timer.innerText = timerValue;
 
-        if (timerValue % 60 === 0) {  // Cada 90 segundos
+        if (timerValue % 90 === 0) {  // Cada 90 segundos
             level++;
             $level.innerText = level;
             dropInterval = Math.max(100, dropInterval - 100); // Reduce el intervalo de caída hasta un mínimo de 100 ms
@@ -240,6 +240,53 @@ function resetTimer() {
     dropInterval = 1000;  // Restablece la velocidad de caída inicial
     startTimer();
 }
+
+document.getElementById('left-btn').addEventListener('click', () => {
+    piece.position.x--;
+    if (checkCollision()) {
+        piece.position.x++;
+    }
+});
+
+document.getElementById('right-btn').addEventListener('click', () => {
+    piece.position.x++;
+    if (checkCollision()) {
+        piece.position.x--;
+    }
+});
+
+document.getElementById('down-btn').addEventListener('click', () => {
+    piece.position.y++;
+    if (checkCollision()) {
+        piece.position.y--;
+        solidifyPiece();
+        removeRows();
+    }
+});
+
+document.getElementById('rotate-btn').addEventListener('click', () => {
+    const rotated = [];
+
+    for (let i = 0; i < piece.shape[0].length; i++) {
+        const row = [];
+
+        for (let j = piece.shape.length - 1; j >= 0; j--) {
+            row.push(piece.shape[j][i]);
+        }
+
+        rotated.push(row);
+    }
+
+    const previousShape = piece.shape;
+    piece.shape = rotated;
+    if (checkCollision()) {
+        piece.shape = previousShape;
+    }
+});
+
+document.getElementById('drop-btn').addEventListener('click', () => {
+    dropPiece();
+});
 
 document.addEventListener('keydown', event => {
     if (event.key === EVENT_MOVEMENTS.LEFT) {

@@ -15,14 +15,13 @@
         </header>
         <div id="game-container">
             <div id="instructions">
-                <strong>Intrucciones:</strong>
                 <div class="instruction-item">
                     <img src="bajar_ficha_de_golpe.png" alt="Espacio">
-                    <span>Bajar ficha de golpe.</span>
+                    <span>Bajar ficha de golpe</span>
                 </div>
                 <div class="instruction-item">
                     <img src="movimiento_ficha.png" alt="Flechas de dirección">
-                    <span>Movimiento de ficha.</span>
+                    <span>Movimiento de ficha</span>
                 </div>
             </div>
             <div id="main">
@@ -30,19 +29,26 @@
                 <div id="next-piece-container">
                     <strong>Próxima Ficha:</strong>
                     <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
-                    <div id="level-container">
-                        <strong>Nivel: <span id="level">1</span></strong>
-                    </div>
                     <div id="timer-container">
                         <strong>Tiempo: <span id="timer">0</span>s</strong>
+                    </div>
+                    <div id="level-container">
+                        <strong>Nivel: <span id="level">1</span></strong>
                     </div>
                 </div>
             </div>
         </div>
         <footer>
-            <strong>Puntuación: <span id="puntuacion">0</span></strong>
+            <strong>Puntuación: <span>0</span></strong>
             <button id="reset-button">Reset</button>
         </footer>
+        <div id="touch-controls">
+            <button id="left-btn">⬅️</button>
+            <button id="rotate-btn">🔄</button>
+            <button id="right-btn">➡️</button>
+            <button id="down-btn">⬇️</button>
+            <button id="drop-btn">⏬</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
