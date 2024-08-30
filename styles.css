@@ -133,6 +133,23 @@ button {
     background-color: #555;
 }
 
+button {
+    touch-action: manipulation;
+    /* Evita el zoom al tocar rápidamente */
+}
+
+html,
+body {
+    touch-action: none;
+    /* Evita el zoom en general */
+    -webkit-user-select: none;
+    /* Evita la selección de texto en Safari */
+    -ms-user-select: none;
+    /* Evita la selección de texto en IE */
+    user-select: none;
+    /* Evita la selección de texto en el resto de navegadores */
+}
+
 /* Ocultar los controles táctiles en pantallas más grandes que 768px */
 @media (min-width: 769px) {
     #touch-controls {
@@ -147,6 +164,11 @@ button {
         align-items: flex-start;
     }
 
+    #gameCanvas {
+        width: 250px;
+        height: 500px;
+    }
+
     #main {
         display: flex;
         flex-direction: row;
@@ -157,14 +179,30 @@ button {
     #next-piece-container {
         align-items: flex-start;
         /* Alinea los elementos a la izquierda */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #timer-container,
+    #level-container,
+    footer {
+        width: 100%;
+        text-align: left;
     }
 
     footer {
-        flex-direction: column;
-        /* Cambia a columna para el footer */
-        gap: 10px;
-        align-items: center;
-        max-width: 100%;
+        padding-top: 10px;
+    }
+
+    #puntuacion {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    #reset-button {
+        display: inline-block;
+        margin-top: 5px;
     }
 
     #instructions {
